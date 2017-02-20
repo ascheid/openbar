@@ -1,11 +1,11 @@
 package br.com.scheid.mbean;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import br.com.scheid.dao.GenericDAO;
 import br.com.scheid.filters.IngressoFilter;
@@ -14,7 +14,7 @@ import br.com.scheid.model.IngressoVendido;
 import br.com.scheid.viewmodel.IU03_01ViewModel;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class IU03_01MBean implements Serializable {
 	
 	/**
