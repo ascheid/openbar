@@ -11,6 +11,8 @@
 			window.onload = function(){
 				$('.js-sidebar, .js-content').toggleClass('is-toggled');
 				event.preventDefault();
+				$(".is-selected").removeClass("is-selected");
+				$("#produtos").addClass("is-selected");
 			}
 		</script>
 

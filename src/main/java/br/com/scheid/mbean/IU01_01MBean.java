@@ -19,11 +19,12 @@ import br.com.scheid.model.LineType;
 import br.com.scheid.model.Order;
 import br.com.scheid.model.OrderLine;
 import br.com.scheid.model.Produto;
+import br.com.scheid.utils.StringUtil;
 import br.com.scheid.viewmodel.IU01_01ViewModel;
 
 @ManagedBean
 @ViewScoped
-public class IU01_01MBean implements Serializable{
+public class IU01_01MBean extends AbstractCommonMBean implements Serializable  {
 	private static final long serialVersionUID = 1L;
 
 	
@@ -36,6 +37,26 @@ public class IU01_01MBean implements Serializable{
 	public ProdutoFilter filter;
 	public String linguaEscolhida = "en";
 	public Locale locale;
+	
+	
+	private Boolean isProdutoValido(){
+		Boolean valido = Boolean.TRUE;
+		if(StringUtil.isNull(this.produto.getNome())){
+			valido = Boolean.FALSE;
+			this.addMessage(this.getLabel("msg_nome_obrigatorio"), FacesMessage.SEVERITY_ERROR);
+		}
+		
+		if(this.produto.getPreco() == 0){
+			valido = Boolean.FALSE;
+			this.addMessage(this.getLabel("msg_preco_obrigatorio"), FacesMessage.SEVERITY_ERROR);
+		}
+		
+		if(this.produto.getEstoque() == null && this.usaEstoque()){
+			valido = Boolean.FALSE;
+			this.addMessage(this.getLabel("msg_estoque_obrigatorio"), FacesMessage.SEVERITY_ERROR);
+		}
+		return valido;
+	}
 	
 	public void onExcluirProduto(){
 		for(int i=0; i < this.produtosSelecionados.size();i++){
@@ -74,7 +95,11 @@ public class IU01_01MBean implements Serializable{
 		this.onBuscar();
 		this.fecharDialog();
 	}
-
+	@Override
+	public String getBundleDir(){
+		return "br/com/scheid/locale/bundle";
+	}
+	
 	public String init(){
 		locale = new Locale(linguaEscolhida);
 		FacesContext instance = FacesContext.getCurrentInstance();
